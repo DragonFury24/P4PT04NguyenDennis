@@ -1,7 +1,9 @@
 package com.dragonfury.duy.p4pt04nguyendennis;
 
 import android.graphics.Canvas;
+import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.content.Context;
 
@@ -13,17 +15,17 @@ public class DrawView extends View {
         super(context);
     }
 
-    SensorManager sensorManager = new SensorManager() {
-        @Override
-        public int getSensors() {
-            return super.getSensors();
-        }
-    }
+    SensorManager sensorManager = new SensorManager();
     float[] orientation = new float[3];
+    float[] accelerometer = new float[3];
+    SensorActivity sensorActivity = new SensorActivity();
+
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-       orientation = sensorManager.getOrientation()
+        accelerometer = Sensor.TYPE_ACCELEROMETER;
+        orientation = sensorActivity.getOrientation(sensorManager.getRotationMatrix(null, null, Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_MAGNETIC_FIELD), orientation);
     }
+
 }
