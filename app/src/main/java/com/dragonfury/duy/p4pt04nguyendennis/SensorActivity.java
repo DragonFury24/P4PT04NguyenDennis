@@ -13,5 +13,5 @@ public class SensorActivity extends SensorManager {
         super();
     }
 
-    public Se
+
 }

@@ -13,6 +13,7 @@ import android.content.Context;
 public class DrawView extends View {
     public DrawView(Context context) {
         super(context);
+        context.getSystemService(Context.SENSOR_SERVICE);
     }
 
     SensorManager sensorManager = new SensorManager();
@@ -24,6 +25,7 @@ public class DrawView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        getContext().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = Sensor.TYPE_ACCELEROMETER;
         orientation = sensorActivity.getOrientation(sensorManager.getRotationMatrix(null, null, Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_MAGNETIC_FIELD), orientation);
     }
