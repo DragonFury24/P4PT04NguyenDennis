@@ -38,9 +38,7 @@ public class DrawView extends View {
             }
         };
     }
-
-    private float[] orientation = new float[3];
-    private float[] accelerometer = new float[3];
+    
     private Sensor sensor;
     private SensorManager sensorManager;
     private SensorEventListener listener;
