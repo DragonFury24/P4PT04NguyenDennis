@@ -38,7 +38,7 @@ public class DrawView extends View {
             }
         };
     }
-    
+
     private Sensor sensor;
     private SensorManager sensorManager;
     private SensorEventListener listener;
