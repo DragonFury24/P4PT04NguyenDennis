@@ -1,6 +1,7 @@
 package com.dragonfury.duy.p4pt04nguyendennis;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.hardware.Sensor;
@@ -17,54 +18,24 @@ public class DrawView extends View {
     public DrawView(Context context) {
         super(context);
 
-        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        listener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                geoField = sensorEvent.values;
-
-                if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) { //Calculates magnetic field around device and stores it
-                    geoField[0] = sensorEvent.values[0];
-                    geoField[1] = sensorEvent.values[1];
-                    geoField[2] = sensorEvent.values[2];
-                }
-
-                sensorManager.getRotationMatrix(rotateMatrix, null, accelerometer, geoField); //Calculate RotationMatrix - Device screen is facing sky, top is towards north pole
-                sensorManager.getOrientation(rotateMatrix, orientations); //Calculate amount of rotation along x, y, and z axis
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-
-            }
-
-        };
-
     }
 
-    private float[] orientations = new float[3];
-    private float[] accelerometer = new float[3];
-    private float[] geoField = new float [3];
-    private float[] rotateMatrix = new float[9];
-    private Sensor sensor;
-    SensorManager sensorManager;
-    private SensorEventListener listener; //Detects when sensor is being used/changed
     private Paint paint = new Paint();
-    private float degrees;
-    Path path = new Path();
+    private SensorActivity sensorActivity = new SensorActivity(getContext());
+    private Path path = new Path();
+    private float[] orientations = new float[3];
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-//        for (float radOrientation: orientations) { //Convert orientations values to degrees
-//            radOrientation = (float) Math.toDegrees(radOrientation);
-//        }
-
+        orientations = sensorActivity.getOrientation();
         for (float orientation: orientations) {
             System.out.println("test:"+orientation);
         }
+
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(100 * getWidth() / 1440);
 
         if (orientations[0] > 0) {
 
@@ -73,18 +44,18 @@ public class DrawView extends View {
         }
 
         if (orientations[1] > 0) {
-
-        }else if (orientations[1] < 0) {
-
-        }
-
-        if (orientations[2] > 0) {
-            canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 3 * getHeight() / 2, paint);
-        }else if (orientations[2] < 0) {
+            canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 2 * getHeight() / 3, paint);
+        }else if (orientations[1] <= 0) {
             canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 2560 - (1280 - 7 * orientations [2]), paint);
         }
 
+        if (orientations[2] >= 0) {
+            canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 3, getHeight() / 2, paint);
+        }else if (orientations[2] <= 0) {
 
+        }
+
+        invalidate();
 
     }
 
@@ -95,8 +66,6 @@ public class DrawView extends View {
         path.close();
         c.drawPath(path, p);
     }
-
-
 
 
 }
