@@ -49,7 +49,7 @@ public class SensorActivity extends Activity implements SensorEventListener{
 
         sensorManager.getRotationMatrix(rotateMatrix, null, accelerometer, geoField); //Calculate RotationMatrix - Device screen is facing sky, top is towards north pole
         sensorManager.getOrientation(rotateMatrix, orientations); //Calculate amount of rotation along x, y, and z axis
-        System
+        //System
     }
 
     @Override
