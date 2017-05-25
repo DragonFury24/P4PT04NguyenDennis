@@ -24,12 +24,12 @@ public class DrawView extends View {
     private SensorActivity sensorActivity = new SensorActivity(getContext());
     private Path path = new Path();
     private float[] orientations = new float[3];
-
+    MainActivity mainActivity = new MainActivity();
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        orientations = sensorActivity.getOrientation();
+        orientations = mainActivity.getOrientation();
         for (float orientation: orientations) {
             System.out.println("test:"+orientation);
         }

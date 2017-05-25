@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 /**
  * Created by 1383504 on 5/23/2017.
  */
-public class SensorActivity extends Activity implements SensorEventListener{
+public class SensorActivity extends Activity implements SensorEventListener {
 
 
 
@@ -47,12 +47,11 @@ public class SensorActivity extends Activity implements SensorEventListener{
             accelerometer = sensorEvent.values;
         }
 
-        sensorManager.getRotationMatrix(rotateMatrix, null, accelerometer, geoField); //Calculate RotationMatrix - Device screen is facing sky, top is towards north pole
-        sensorManager.getOrientation(rotateMatrix, orientations); //Calculate amount of rotation along x, y, and z axis
+        SensorManager.getRotationMatrix(rotateMatrix, null, accelerometer, geoField); //Calculate RotationMatrix - Device screen is facing sky, top is towards north pole
+        SensorManager.getOrientation(rotateMatrix, orientations); //Calculate amount of rotation along x, y, and z axis
         for (float orientation: orientations) {
             System.out.println("test:" + orientation);
         }
-        //System
     }
 
     @Override
