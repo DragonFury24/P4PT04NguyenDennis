@@ -29,10 +29,11 @@ public class DrawView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        orientations = mainActivity.getOrientation();
-        for (float orientation: orientations) {
-            System.out.println("test:"+orientation);
-        }
+        orientations[0] = mainActivity.getOri0();
+//        for (float orientation: orientations) {
+//            System.out.println("test drawView:"+orientation);
+//        }
+        System.out.println("ori1: " + orientations[0]);
 
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(100 * getWidth() / 1440);
