@@ -37,15 +37,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         private Paint paint = new Paint();
-        private SensorActivity sensorActivity = new SensorActivity(getContext());
         private Path path = new Path();
         private float[] orientations = new float[3];
-        MainActivity mainActivity = new MainActivity();
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            orientations[0] = mainActivity.getOri0();
+            orientations = getOrientations();
             System.out.println("ori1: " + orientations[0]);
 
             paint.setColor(Color.BLACK);
