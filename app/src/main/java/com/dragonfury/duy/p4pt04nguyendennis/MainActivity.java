@@ -18,13 +18,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     private float[] orientations = new float[3];
-    private float[] orientations1 = new float[3];
     private float[] accelerometer = new float[3];
     private float[] geoField = new float [3];
     private float[] rotateMatrix = new float[9];
-    private float ori0;
-    private float ori1;
-    private float ori2;
     private SensorManager sensorManager;
     Sensor accelero;
     Sensor magField;
@@ -99,17 +95,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             accelerometer = sensorEvent.values;
         }
 
-        SensorManager.getRotationMatrix(rotateMatrix, null, accelerometer, geoField); //Calculate RotationMatrix - Device screen is facing sky, top is towards north pole
-        orientations=SensorManager.getOrientation(rotateMatrix, orientations); //Calculate amount of rotation along x, y, and z axis
-        ori0 = orientations[0];
-        ori1 = orientations[1];
-        ori2 = orientations[2];
-        System.out.println("test act:"+orientations[0]+","+orientations.length);
-        int i=0;
-        for (float orientation: orientations) {
-            orientations1[i++]=orientation;
-            System.out.println("test:" + orientation);
-        }
+        SensorManager.getRotationMatrix(rotateMatrix, null, accelerometer, geoField); //Calculate RotationMatrix - Start point: Device screen is facing ceiling
+        SensorManager.getOrientation(rotateMatrix, orientations); //Calculate amount of rotation along x, y, and z axis
     }
 
     @Override
@@ -130,7 +117,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public float[] getOrientations() {
-        System.out.println("test get:"+orientations[0]+","+orientations1[0]);
+        for (float orientation: orientations){
+            System.out.println(orientation);
+        }
         return orientations;
     }
 }
