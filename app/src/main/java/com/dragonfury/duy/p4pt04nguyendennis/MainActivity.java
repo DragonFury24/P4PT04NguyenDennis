@@ -21,9 +21,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float[] accelerometer = new float[3];
     private float[] geoField = new float [3];
     private float[] rotateMatrix = new float[9];
+    private float radianConvert = 180 / (float)Math.PI;
     private SensorManager sensorManager;
     Sensor accelero;
     Sensor magField;
+
 
 
     public class DrawView extends View {
@@ -40,11 +42,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
             orientations = getOrientations();
-            System.out.println("ori1: " + orientations[0]);
-
             paint.setColor(Color.BLACK);
             paint.setStrokeWidth(100 * getWidth() / 1440);
 
+            float ori1 = orientations[1] * radianConvert;
+            float ori2 = orientations[2] * radianConvert;
+
+            System.out.println("ori1: " + ori1);
+            System.out.println("ori2: " + ori2);
+            //Draw line from center to top of screen
+            if ((orientations[1] * radianConvert) > -90) {
+                paint.setColor(Color.BLUE);
+                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight() / 2, paint);
+            }
+
+            //Draw line from center to bottom of screen
+            if ((orientations[1] * radianConvert) < -90) {
+                paint.setColor(Color.RED);
+                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 3 * getHeight() / 4, paint);
+            }
+
+            //Draw line from center to left of screen
+            if ((orientations[2] * radianConvert) > -45) {
+                paint.setColor(Color.GREEN);
+            }
+
+            //Draw line from center to right of screen
+            if ((orientations[2] * radianConvert) < -45) {
+                paint.setColor(Color.YELLOW);
+            }
             if (orientations[0] > 0) {
 
             } else if (orientations[0] < 0) {
@@ -117,9 +143,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public float[] getOrientations() {
-        for (float orientation: orientations){
-            System.out.println(orientation);
-        }
         return orientations;
     }
 }
