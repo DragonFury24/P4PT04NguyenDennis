@@ -85,14 +85,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             invalidate();
 
         }
-
-        private void drawTri(int x1, int y1, int x2, int y2, int x3, int y3, Canvas c, Paint p) {
-            path.moveTo(x1, y1);
-            path.lineTo(x2, y2);
-            path.lineTo(x3, y3);
-            path.close();
-            c.drawPath(path, p);
-        }
     }
 
     @Override
