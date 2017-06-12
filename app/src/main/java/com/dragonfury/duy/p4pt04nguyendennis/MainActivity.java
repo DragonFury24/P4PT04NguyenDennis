@@ -1,10 +1,12 @@
 package com.dragonfury.duy.p4pt04nguyendennis;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
+import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -35,7 +37,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         private Paint paint = new Paint();
-        private Path path = new Path();
+        RectF rectF = new RectF();
+        Bitmap happyRem = BitmapFactory.decodeResource(getResources(), R.drawable.remhappy);
+        Bitmap angryRem = BitmapFactory.decodeResource(getResources(), R.drawable.remangry);
 
         @Override
         protected void onDraw(Canvas canvas) {
@@ -44,46 +48,41 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             paint.setStrokeWidth(100 * getWidth() / 1440);
 
             //Draw line from center to top of screen
-            if ((orientations[1]) > -90) {
+            if ((orientations[1]) > 0) {
                 paint.setColor(Color.BLUE);
-                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight() / 2, paint);
+                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 0, paint);
             }
 
             //Draw line from center to bottom of screen
-            if ((orientations[1]) < -90) {
+            if (0 > orientations[1] && orientations[1] > -90) {
                 paint.setColor(Color.RED);
-                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 3 * getHeight() / 4, paint);
+                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight(), paint);
             }
 
             //Draw line from center to left of screen
             if ((orientations[2]) > -45) {
-                paint.setColor(Color.GREEN);
+
             }
 
             //Draw line from center to right of screen
             if ((orientations[2]) < -45) {
-                paint.setColor(Color.YELLOW);
-            }
-            if (orientations[0] > 0) {
-
-            } else if (orientations[0] < 0) {
 
             }
 
-            if (orientations[1] > 0) {
-                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 2 * getHeight() / 3, paint);
-            } else if (orientations[1] <= 0) {
-                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 2560 - (1280 - 7 * orientations[2]), paint);
-            }
-
-            if (orientations[2] >= 0) {
-                canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 3, getHeight() / 2, paint);
-            } else if (orientations[2] <= 0) {
-
-            }
+            //
+            paint.setColor(Color.CYAN);
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            canvas.drawRect(rectF, paint);
+            rectF.offset(0, orientations[1] * -1);
 
             invalidate();
 
+        }
+
+        @Override
+        protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+            super.onLayout(changed, left, top, right, bottom);
+            rectF.set(480 * getWidth() / 1440, 853.3f * getHeight() / 2560, 950.4f * getWidth() / 1440, 1689.6f * getHeight() / 2560);
         }
     }
 
@@ -108,9 +107,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         SensorManager.getRotationMatrix(rotateMatrix, null, accelerometer, geoField); //Calculate RotationMatrix - Start point: Device screen is facing ceiling
         SensorManager.getOrientation(rotateMatrix, getOrientation); //Calculate amount of rotation along x, y, and z axis
-        orientations[0] = getOrientation[0];
-        orientations[1] = getOrientation[1];
-        orientations[2] = getOrientation[2];
+        for (int i = 0; i < getOrientation.length; i++) {
+            orientations[i] = (float)(getOrientation[i] * 180 / Math.PI);
+        }
+
+        for (int i = 0; i < orientations.length; i++) {
+            System.out.println("degrees:" + i + " " + orientations[i]);
+        }
     }
 
     @Override
