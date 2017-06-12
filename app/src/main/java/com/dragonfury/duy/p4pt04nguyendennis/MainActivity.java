@@ -17,11 +17,11 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
 
-    private float[] orientations = new float[3];
+    private float[] getOrientation = new float[3];
     private float[] accelerometer = new float[3];
     private float[] geoField = new float [3];
     private float[] rotateMatrix = new float[9];
-    private float radianConvert = 180 / (float)Math.PI;
+    private float[] orientations = new float[3];
     private SensorManager sensorManager;
     Sensor accelero;
     Sensor magField;
@@ -36,39 +36,32 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         private Paint paint = new Paint();
         private Path path = new Path();
-        private float[] orientations = new float[3];
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            orientations = getOrientations();
             paint.setColor(Color.BLACK);
             paint.setStrokeWidth(100 * getWidth() / 1440);
 
-            float ori1 = orientations[1] * radianConvert;
-            float ori2 = orientations[2] * radianConvert;
-
-            System.out.println("ori1: " + ori1);
-            System.out.println("ori2: " + ori2);
             //Draw line from center to top of screen
-            if ((orientations[1] * radianConvert) > -90) {
+            if ((orientations[1]) > -90) {
                 paint.setColor(Color.BLUE);
                 canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight() / 2, paint);
             }
 
             //Draw line from center to bottom of screen
-            if ((orientations[1] * radianConvert) < -90) {
+            if ((orientations[1]) < -90) {
                 paint.setColor(Color.RED);
                 canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, 3 * getHeight() / 4, paint);
             }
 
             //Draw line from center to left of screen
-            if ((orientations[2] * radianConvert) > -45) {
+            if ((orientations[2]) > -45) {
                 paint.setColor(Color.GREEN);
             }
 
             //Draw line from center to right of screen
-            if ((orientations[2] * radianConvert) < -45) {
+            if ((orientations[2]) < -45) {
                 paint.setColor(Color.YELLOW);
             }
             if (orientations[0] > 0) {
@@ -122,7 +115,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         SensorManager.getRotationMatrix(rotateMatrix, null, accelerometer, geoField); //Calculate RotationMatrix - Start point: Device screen is facing ceiling
-        SensorManager.getOrientation(rotateMatrix, orientations); //Calculate amount of rotation along x, y, and z axis
+        SensorManager.getOrientation(rotateMatrix, getOrientation); //Calculate amount of rotation along x, y, and z axis
+        orientations[0] = getOrientation[0];
+        orientations[1] = getOrientation[1];
+        orientations[2] = getOrientation[2];
     }
 
     @Override
