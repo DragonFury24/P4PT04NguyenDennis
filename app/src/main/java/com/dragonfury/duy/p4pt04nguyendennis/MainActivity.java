@@ -38,8 +38,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         private Paint paint = new Paint();
         RectF rectF = new RectF();
-        Bitmap happyRem = BitmapFactory.decodeResource(getResources(), R.drawable.remhappy);
-        Bitmap angryRem = BitmapFactory.decodeResource(getResources(), R.drawable.remangry);
+        RectF RemHappyRectF = new RectF();
+        RectF RemAngryRectF = new RectF();
+        Bitmap happyRemBMP = BitmapFactory.decodeResource(getResources(), R.drawable.remhappy);
+        Bitmap angryRemBMP = BitmapFactory.decodeResource(getResources(), R.drawable.remangry);
+        Boolean RemAngry = false;
+        float RemRectFX;
+        float RemRectFY;
 
         @Override
         protected void onDraw(Canvas canvas) {
@@ -70,11 +75,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
 
             //
-            paint.setColor(Color.CYAN);
-            paint.setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawRect(rectF, paint);
             rectF.offset(0, orientations[1] * -1);
 
+            if (RemHappyRectF.top >= 0) {
+                canvas.drawBitmap(happyRemBMP, null, RemHappyRectF, null);
+                RemHappyRectF.offset(0, orientations[1] * -1);
+            }else {
+                RemAngry = true;
+                canvas.drawBitmap(angryRemBMP, null, RemAngryRectF, null);
+            }
+            if (RemAngry) {
+                RemAngryRectF.set(0 * getWidth() / 1440, getHeight() * .33f * getHeight() / 2560, 1000 * getWidth() / 1440, getHeight() * .66f * getHeight() / 2560);
+                RemAngryRectF.offsetTo(RemRectFX, RemRectFY);
+
+            }
+            RemRectFX = RemHappyRectF.left;
+            RemRectFY = RemHappyRectF.top;
+            System.out.println("top: " + RemHappyRectF.top);
+            System.out.println("bottom: " + RemHappyRectF.bottom);
+            System.out.println("thistop: " + this.getTop());
+            System.out.println("thisbottom: " + this.getBottom());
             invalidate();
 
         }
@@ -82,7 +102,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         @Override
         protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
             super.onLayout(changed, left, top, right, bottom);
-            rectF.set(480 * getWidth() / 1440, 853.3f * getHeight() / 2560, 950.4f * getWidth() / 1440, 1689.6f * getHeight() / 2560);
+            rectF.set(480 * getWidth() / 1440, getHeight() * .33f * getHeight() / 2560, getWidth() * .66f * getWidth() / 1440, getHeight() * .66f * getHeight() / 2560);
+            RemHappyRectF.set(getWidth() * .33f * getWidth() / 1440, getHeight() * .33f * getHeight() / 2560, getWidth() * .66f * getWidth() / 1440, getHeight() * .66f * getHeight() / 2560);
         }
     }
 
