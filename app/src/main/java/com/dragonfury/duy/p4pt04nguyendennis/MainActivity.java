@@ -64,16 +64,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, getHeight(), paint);
             }
 
-            //Draw line from center to left of screen
-            if ((orientations[2]) > -45) {
-
-            }
-
-            //Draw line from center to right of screen
-            if ((orientations[2]) < -45) {
-
-            }
-
             //
             rectF.offset(0, orientations[1] * -1);
 
