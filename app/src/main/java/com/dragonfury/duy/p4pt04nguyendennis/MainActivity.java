@@ -18,7 +18,6 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
-
     private float[] getOrientation = new float[3];
     private float[] accelerometer = new float[3];
     private float[] geoField = new float [3];
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     Sensor accelero;
     Sensor magField;
-
-
 
     public class DrawView extends View {
         public DrawView(Context context) {
